@@ -1,6 +1,7 @@
 from django.conf.urls import url
-from main.views import page
+from main.views import page, home
 
 urlpatterns = (
-    url(r"(?P<slug>[\w./-]+)/$", page, name="page"),
+    url(r"^(?P<slug>[\w-]+)/$", page, name="page"),
+    url(r"^$", home, name="home"),
 )

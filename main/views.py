@@ -25,3 +25,5 @@ def page(request, slug):
     context = {"page": page}
     return render(request, "base.html", context)
 
+def home(request):
+    return page(request, "about")
