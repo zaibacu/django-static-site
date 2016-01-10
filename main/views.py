@@ -16,14 +16,17 @@ def get_page_or_404(name):
             raise Http404("Page not found")
 
     with open(fpath, "r") as f:
-        page = Template(f.read())
+        import markdown as md
+        page = Template(md.markdown(f.read()))
 
     return page
+
 
 def page(request, slug):
     page = get_page_or_404(slug)
     context = {"page": page}
     return render(request, "base.html", context)
+
 
 def home(request):
     return page(request, "about")
