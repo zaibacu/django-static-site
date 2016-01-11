@@ -5,6 +5,11 @@
    <title>Static</title>
 </head>
 <body>
+    <ul>
+        {% for page in pages %}
+            <li><a href="{% url 'page' page.url %}">{{ page.title }}</a></li>
+        {% endfor %}
+    </ul>
     {% block content %}
       {% include page %}
     {% endblock %}

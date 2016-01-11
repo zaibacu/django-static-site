@@ -6,6 +6,19 @@ from django.template import Template
 from django.utils._os import safe_join
 
 
+def get_pages():
+    from collections import namedtuple
+    page = namedtuple("page", ["url", "title"])
+
+    def get_title(file):
+        with open(safe_join(settings.SITE_PAGES_DIRECTORY, file), "r") as f:
+            return f.readline()
+
+    for name in os.listdir(settings.SITE_PAGES_DIRECTORY):
+        if name.endswith(".md"):
+            yield page(name, get_title(name))
+
+
 def get_page_or_404(name):
     try:
         fpath = safe_join(settings.SITE_PAGES_DIRECTORY, "{0}.md".format(name))
@@ -24,7 +37,7 @@ def get_page_or_404(name):
 
 def page(request, slug):
     page = get_page_or_404(slug)
-    context = {"page": page}
+    context = {"page": page, "pages": get_pages()}
     return render(request, "base.html", context)
 
 
